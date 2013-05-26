@@ -1,6 +1,8 @@
 
 var http = require('http');
 var mongoose = require('mongoose');
+var url = require('url');
+var querystring = require('querystring');
 var Schema = mongoose.Schema;
 var count = 0;
 
@@ -26,7 +28,9 @@ var Paper = mongoose.model('paper', paperSchema);
 
 
 var handleRequest = function(request, response){
-  console.log("WOW",request.url);
+  var parsedUrl = url.parse(request.url);
+  var info = querystring.parse(parsedUrl.query);
+  console.log(info);
 	var defaultCorsHeaders = {
     "access-control-allow-origin": "*",
     "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
@@ -49,7 +53,7 @@ var handleRequest = function(request, response){
     count ++;
     var newName = "bill"+count.toString();
     
-    Paper.find({'Year': 2005}).where('JournalId').equals(0).limit(10).select('Title').exec( function(err, paper){
+    Paper.find({'Year': parseInt(info.year)}).where('JournalId').equals(0).limit(10).select('Title').exec( function(err, paper){
       console.log('in get 45');
       console.log(paper);
       response.end(JSON.stringify(paper));
