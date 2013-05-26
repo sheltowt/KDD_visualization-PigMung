@@ -52,8 +52,10 @@ var handleRequest = function(request, response){
     response.writeHead(200, headers);
     count ++;
     var newName = "bill"+count.toString();
-    
-    Paper.find({'Year': parseInt(info.year)}).where('JournalId').equals(0).limit(10).select('Title').exec( function(err, paper){
+    if(!info.year){
+      info.year = 2000;
+    }
+    Paper.find({'Year': parseInt(info.year)}).where('JournalId').equals(0).limit(50).select('Title Keyword').exec( function(err, paper){
       console.log('in get 45');
       console.log(paper);
       response.end(JSON.stringify(paper));
