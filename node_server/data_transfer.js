@@ -26,6 +26,7 @@ var Paper = mongoose.model('paper', paperSchema);
 
 
 var handleRequest = function(request, response){
+  console.log("WOW",request.url);
 	var defaultCorsHeaders = {
     "access-control-allow-origin": "*",
     "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
